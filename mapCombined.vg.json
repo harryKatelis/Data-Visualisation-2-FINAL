@@ -216,6 +216,6 @@
   ]
 }
   ],
-  "resolve": {"scale": {"color": "shared"}},
   "config": {"view": {"stroke": null}}
 }
+
