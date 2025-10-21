@@ -1,0 +1,56 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 400,
+  "height": 400,
+  "title": {"text": "Age Group Broken down into Genders: 2017", "fontSize": 20},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/harryKatelis/Data-Visualisation-2/refs/heads/main/barChart2017NoSpace.csv",
+        "format": {"type": "csv"}
+      },
+      "params": [
+        {
+          "name": "hover",
+          "select": {"type": "point", "fields": ["Gender"], "on": "mouseover"},
+          "value": [{"Gender": "Female"}]
+        }
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "AgeGroup",
+          "type": "ordinal",
+          "title": "Age Group",
+          "axis": {"labelAngle": 0, "titleFontSize": 12, "labelFontSize": 12}
+        },
+        "y": {
+          "field": "Number",
+          "type": "quantitative",
+          "title": "Number of Cases",
+          "axis": {"format": "s", "titleFontSize": 12, "labelFontSize": 12},
+          "stack": "zero"
+        },
+        "color": {
+          "field": "Gender",
+          "type": "nominal",
+          "scale": {"range": ["#ff99cc", "#003366"]},
+          "legend": {"title": "Gender"}
+        },
+        "opacity": {"condition": {"param": "hover", "value": 1}, "value": 0.3},
+        "tooltip": [
+          {"field": "Gender", "type": "nominal"},
+          {"field": "Number", "type": "quantitative", "title": "Number of Cases", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "center", "dy": -10, "fontSize": 15, "fontWeight": "bold"},
+      "encoding": {
+        "x": {"field": "AgeGroup", "type": "ordinal"},
+        "y": {"value": 100000},
+        "text": {"value": "Females have more cases than males for ages 55-74 and 75+!"}
+      }
+    }
+  ]
+}

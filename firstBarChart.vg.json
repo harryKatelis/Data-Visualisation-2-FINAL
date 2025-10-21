@@ -1,0 +1,84 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Comparison of total number of cases in Australia between 2011 and 2017.",
+  "background": "#ffff",
+  "title": {
+    "text": "Total Number of Cases in Australia (2011 vs 2017)",
+    "fontSize": 20
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/harryKatelis/FIT3179-Vega-lite/refs/heads/main/genderAustralia.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.Year != null && datum.Year != ''"},
+    {
+      "calculate": "toNumber(replace(datum['Number of Cases in Australia'], /,/g, ''))",
+      "as": "NumericValue"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#67000d",
+        "cornerRadiusEnd": 5
+      },
+      "encoding": {
+        "y": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": {
+            "titleAngle": 0,
+            "titleAlign": "center",
+            "titleBaseline": "bottom",
+            "titlePadding": 0,
+            "labelAngle": 0,
+            "labelAlign": "right",
+            "labelBaseline": "middle",
+            "labelPadding": 10
+          }
+        },
+        "x": {
+          "field": "NumericValue",
+          "type": "quantitative",
+          "title": "Number of Cases",
+          "axis": {
+            "format": ",.0f",
+            "grid": true,
+            "gridColor": "#cccccc",
+            "gridOpacity": 0.3,
+            "labelFontWeight": "normal",
+            "labelFontSize": 12
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 7,
+        "fontSize": 14,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "y": {"field": "Year", "type": "ordinal"},
+        "x": {"field": "NumericValue", "type": "quantitative"},
+        "text": {"field": "NumericValue", "type": "quantitative", "format": ",.0f"}
+      }
+    }
+  ],
+  "width": 475,
+  "height": 250,
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": "normal"
+    },
+    "view": {"stroke": "transparent"}
+  }
+}

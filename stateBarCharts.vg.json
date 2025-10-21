@@ -1,0 +1,91 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Total Number of Cases by Age Group and State",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/harryKatelis/Data-Visualisation-2/refs/heads/main/AllYearsGenderData.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "YearFilter",
+      "value": "2011",
+      "bind": {
+        "input": "select",
+        "options": ["2011", "2017"],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.State != 'Australia'"},
+    {
+      "calculate": "datum.State === 'New South Wales' ? 'NSW' : datum.State === 'Queensland' ? 'QLD' : datum.State === 'South Australia' ? 'SA' : datum.State === 'Tasmania' ? 'TAS' : datum.State === 'Victoria' ? 'VIC' : datum.State === 'Western Australia' ? 'WA' : datum.State === 'Northern Territory' ? 'NT' : datum.State === 'Australian Capital Territory' ? 'ACT' : datum.State",
+      "as": "StateAbbr"
+    },
+    {
+      "calculate": "toNumber(datum['first male']) + toNumber(datum['first female'])",
+      "as": "first_total"
+    },
+    {
+      "calculate": "toNumber(datum['second male']) + toNumber(datum['second female'])",
+      "as": "second_total"
+    },
+    {
+      "calculate": "toNumber(datum['third male']) + toNumber(datum['third female'])",
+      "as": "third_total"
+    },
+    {
+      "fold": ["first_total", "second_total", "third_total"],
+      "as": ["AgeGroup", "TotalCases"]
+    },
+    {
+      "calculate": "datum.AgeGroup === 'first_total' ? '18–54' : datum.AgeGroup === 'second_total' ? '55–74' : '75+'",
+      "as": "AgeGroupLabel"
+    },
+    {"calculate": "datum.TotalCases / 1000", "as": "TotalCasesK"},
+    {"filter": "datum.Year == YearFilter"}
+  ],
+  "columns": 4,
+  "facet": {
+    "field": "StateAbbr",
+    "type": "nominal",
+    "header": {"title": "", "labelFontSize": 1}  
+  },
+  "spec": {
+    "layer": [
+      {
+        "mark": {"type": "bar", "tooltip": true},
+        "encoding": {
+          "x": {"field": "AgeGroupLabel", "type": "ordinal", "axis": {"title": null, "labels": false}},
+          "y": {"field": "TotalCasesK", "type": "quantitative", "scale": {"domain": [0, 200]}, "axis": {"title": "Cases (K)"}},
+          "color": {
+            "field": "AgeGroupLabel",
+            "type": "nominal",
+            "scale": {"range": ["#5c4326", "#a97c50", "#d9c4a2"]},
+            "legend":null
+            
+          },
+          "tooltip": [
+            {"field": "StateAbbr", "type": "nominal", "title": "State"},
+            {"field": "AgeGroupLabel", "type": "nominal", "title": "Age Group"},
+            {"field": "TotalCasesK", "type": "quantitative", "title": "Cases (K)", "format": ".2f"}
+          ]
+        }
+      },
+      {
+        "mark": {"type": "text", "dy": 180, "fontSize": 16, "fontWeight": "bold", "align": "center"},
+        "encoding": {
+          "x": {"value": 90},
+          "y": {"value": 0},
+          "text": {"field": "StateAbbr"}
+        }
+      }
+    ]
+  },
+  "config": {"view": {"stroke": "transparent"}}
+}

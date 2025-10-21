@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardiovascular Health in Australia</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <style>
+    * { margin: 0; padding: -6; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3332328f;
+      color: #333;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      background-color: #b30000;
+      color: white;
+      font-size: 48px;
+      padding: 25px 20px;
+      border-radius: 50px;
+      margin-bottom: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .tile {
+      background-color: #ffffff;
+      padding: 30px 25px;
+      margin-bottom: 40px;
+      border-radius: 0px;
+      text-align: center;
+    }
+
+    .tile h2 {
+      font-size: 28px;
+      color: #b30000;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .grid-2x2 > div {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .text-cell {
+      font-size: 16px;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .text-cell div {
+      text-align: center;
+    }
+
+    .chart-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    p {
+      margin: 10px auto;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    h3 {
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      margin-top: 60px;
+      padding: 20px 0;
+      border-top: 1px solid #ccc;
+      background-color: #fafafa;
+    }
+
+    .footer a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Mapping the Shift in Cardiovascular Health Across Australia: 2011 & 2017</h1>
+
+    <div class="tile">
+      <h2>Introduction</h2>
+      <div style="max-width: 1200px; margin: 0 auto; text-align:center;">
+      <p style="font-style: italic; color: #555; font-size: 16px;"> Disclaimer: The information presented in this visualisation is solely for information purposes only. It does not aim to predict future trends. This data was the most recent data collected
+        by the Australian Insitute of Health and Welfare (AIHW) regarding geograhical variation in Cardiovascular disease, and may therefore seem outdated. The only two years of data collected were 2011 & 2017. Additionally, the trend is not indicative of the what occured between these years.
+      </p>
+      <p><strong>Cardiovascular disease (also known as CVD)</strong> encompasses a range of conditions affecting the heart and blood vessels, including <strong>coronary heart disease, stroke, heart failure, peripheral vascular disease, and rheumatic heart disease</strong>. These conditions represent a significant burden on the Australian healthcare system and remain among the leading causes of morbidity and mortality nationwide.</p>
+      <p><strong>To present the data collected by the AIHW,</strong> the national and state-level case numbers and proportions from 2011 and 2017 will be presented, where the geographic variation will be noted. Then, the distribution of case numbers across genders and age groups
+      will also be displayed and analysed within each state.</p>
+      
+      <p>
+        Specifically, case numbers are displayed for each gender group 
+        (<span style="color:#003366; font-weight:bold;">Male</span> and 
+        <span style="color:#ff99cc; font-weight:bold;">Female</span>), 
+        with colours in the visualisations matching those used in the charts. 
+        Age groups are divided into three main categories:
+        <span style="color:#5c4326; font-weight:bold;">18–54</span>, 
+        <span style="color:#a97c50; font-weight:bold;">55–74</span>, and 
+        <span style="color:#d9c4a2; font-weight:bold;">75+</span>. 
+        These classifications follow the AIHW data source (noted at the end of the visualisation).
+      </p>
+      <p style="font-style: italic; color: #555;">Firstly, the overall trend of cardiovascular diseases in Australia will be compared.</p>
+      </div>
+    </div>
+    <div class="tile">
+      <h2>Overall Australian Cardiovascular Rates in 2011 & 2017</h2>
+      <div class="grid-2x2">
+        <div class="chart-cell" id="firstBarChart"></div>
+        <div class="text-cell">
+          <div style="background-color: #fff9f9; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0;">
+            <p>This horizontal bar chart displays the total incidence of cardiovascular disease cases across all states in Australia for the years 2011 and 2017. In 2011, there were <strong>1,712,489</strong> reported cases, which decreased to <strong>1,180,165</strong> cases by 2017.</p>
+            <p>This represents a reduction of approximately <strong>532,324</strong> cases, indicating a <strong>31%</strong> decline in total cardiovascular disease burden over the six-year period.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; font-style: italic; color: #555; margin: 30px 0; padding: 15px; background-color: #fafafa; border-radius: 5px;">
+        <p>See the small multiples map below which compares the rate of CVD incidents in each state across Australia.</p>
+      </div>
+
+      <div class="chart-cell" id="mapCombined" style="margin-top: 20px;"></div>
+
+      <div style="background-color: #fff9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; margin-top: 20px;">
+        <h3>Geographic Distribution of CVD in Australia: 2011 & 2017</h3>
+        <p>The choropleth maps above visualize cardiovascular disease rates per 1,000 people across Australian states and territories for 2011 and 2017.</p>
+        <p>In 2011, <strong>Western Australia (WA)</strong> exhibited the highest disease rate at <strong>116</strong> cases per 1,000 people, appearing in the darkest red out of both maps. Additionally, the lowest rate in 2011 was exhibited by <strong>South Australia (SA)</strong>, with <strong>80</strong> cases per 1,000 people. 
+          In 2017, there was a notable overall reduction in disease intensity across most regions, with <strong>Tasmania (TAS)</strong> showing the highest rate at <strong>77</strong> cases per 1,000 people.</p>
+        <p>Indeed, the chlorpleth maps show variation geographically in terms of the rates of cardiovascular disease in Australia. More rural states like <strong>Western Australia (WA)</strong> and <strong>Tasmania </strong> show higher rates of CVD disease, likely due to
+          more limited access to healthcare, and a more sparse population. <strong>Northern Territory (NT)</strong> exhibited the lowest average disease rate of <strong>59</strong> cases per 1,000 people.  </p>
+      </div>
+
+
+      <div style="background-color: #fff9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; margin-top: 30px;">
+        <h3>Does Population have an effect on Disease Rate?</h3>
+        <p><strong>The bubble chart below examines the relationship between total population and cardiovascular disease cases</strong>, helping to identify if larger populations correspond to higher case numbers. Each bubble represents a state, with size (area) indicating population and position showing the relationship between population size and proportion of that population
+          with CVD. Also, the median number of cases and mean proportion (%) are shown on the chart for each year.</p>
+          <div style="text-align: center; font-style: italic;">
+        <p>Click on the dropdown below the chart to change between 2011 and 2017.</p>
+      </div>
+      </div>
+
+      <div class="chart-cell" id="bubble" style="margin-top: 20px;"></div>
+
+      <div style="background-color: #fff9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; margin-top: 30px;">
+        <p> In 2011, <strong>NSW</strong> and <strong>VIC</strong> dominated in case numbers, which display a just above average proportion number. <strong
+          >TAS</strong>, however, had the highest
+          proportion number of <strong>11.9%</strong>, showing that it had a higher rate of CVD than <strong>VIC</strong> and <strong>NSW</strong>. In 2017, <strong>NSW</strong> and <strong>VIC</strong>
+        still led absolute case counts while <strong>TAS</strong> showed the highest CVD proportion of <strong>7.73%</strong>, which is similar to 2011. As a result, while it can be said that
+      population number is proportional to case numbers, for states like <strong>TAS</strong>, this doesn't hold.</p>
+
+      </div>
+    </div>
+
+    <div class="tile">
+      <h2>Male & Female Cardiovascular Disease Cases in 2011 & 2017</h2>
+
+      <!-- Slope Chart + Text -->
+      <div class="grid-2x2" style="margin-top: 30px;">
+        <div class="chart-cell" id="slope"></div>
+        <div class="text-cell">
+          <div style="background-color: #fff9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">
+            <h3>Did the Number of Male Cases Decrease at the same rate as Female Cases?</h3>
+            <p>The slope chart illustrates how cardiovascular disease incidence rates changed between 2011 and 2017 by Gender. Overall, <span style="color:#ff99cc; font-weight:bold;">Female</span> cases fell from <strong>0.84 million</strong> to <strong>0.51 million</strong>, a drop of <strong>0.33 million</strong>, while <span style="color:#003366; font-weight:bold;">Male</span> cases decreased from <strong>0.87 million to 0.64 million</strong> , a reduction of <strong>0.23 million</strong>.
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="grid-2x2" style="margin-top: 30px;">
+        <div class="chart-cell" id="barchart2011"></div>
+        <div class="chart-cell" id="barchart2017"></div>
+      </div>
+
+      <div class="text-cell" style="max-width: 1000px; margin: 30px auto;">
+        <div style="background-color: #fff9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">
+          <h3>Gender-Based Disease Prevalence Analysis</h3>
+          <p>The stacked bar charts above compare CVD cases between <span style="color:#003366; font-weight:bold;">Male</span> and <span style="color:#ff99cc; font-weight:bold;">Female</span> across three age groups <span style="color:#5c4326; font-weight:bold;">18–54</span>, 
+        <span style="color:#a97c50; font-weight:bold;">55–74</span>, and 
+        <span style="color:#d9c4a2; font-weight:bold;">75+</span> for both 2011 and 2017.</p>
+          <p><strong><span style="color:#003366; font-weight:bold;">Males</span> aged 55+</strong> showed significantly higher case numbers than <span style="color:#ff99cc; font-weight:bold;">Females</span> in both 2011 and 2017, with the <span style="color:#a97c50; font-weight:bold;">55–74</span> age group experiencing the highest burden of disease across both genders. Notably, for 2011, the <span style="color:#5c4326; font-weight:bold;">18–54</span> age group showed the highest
+          total number of cases of <strong>641,274</strong>, whereas for 2017, the same age group had the lowest total case numbers of <strong>18,945</strong>.</p>
+          <p>Although the overall total number of disease cases decreased from 2011 to 2017, <span style="color:#003366; font-weight:bold;">Male</span> cases remain higher in older age groups.</p>
+          <p>The <span style="color:#5c4326; font-weight:bold;">18–54</span> age group, however, shows higher CVD diseases rates in <span style="color:#ff99cc; font-weight:bold;">Females</span> rather than <span style="color:#003366; font-weight:bold;">Males</span>.</p>
+          <div style="text-align: center; font-style: italic;">
+        <p>The subsequent radial charts investigate the proportion of cases for each age group clearly.</p>
+      </div>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="tile">
+      <h2>State-by-State Comparison of Age Groups</h2>
+       <div style="text-align: center; font-style: italic; color: #555; margin: 30px 0; padding: 15px; background-color: #fafafa; border-radius: 5px;">
+        <p>Hover your mouse over each of the radial charts below to reveal the age group & proportion for 2011 & 2017. </p>
+      </div>
+      <div class="grid-2x2">
+        <div class="chart-cell" id="radial2011"></div>
+        <div class="chart-cell" id="radial2017"></div>
+        <div class="chart-cell" id="stateBarCharts"></div>
+        <div style="background-color: #fff9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">
+          <h3>Regional Age Distribution Patterns</h3>
+          <p>The radial charts above show the absolute case numbers for each age group, showing their portions more clearly than the stacked bar chart in the previous section. <span style="color:#a97c50; font-weight:bold;">55–74</span> age group made up 
+          </p>
+          <p>On the left, the combined bar charts provide a detailed view of total CVD cases by age group for each state in 2011 and 2017 (where you can change the year using the dropdown box underneath the chart). States like <strong>New South Wales (NSW)</strong> and <strong>Victoria (VIC)</strong>, with larger populations, show higher absolute case numbers across all age groups.</p>
+        For 2011, <strong>NSW</strong> had the highest number of <span style="color:#5c4326; font-weight:bold;">18–54</span> year olds with CVD, with <strong>191,400</strong> cases, followed by VIC with <strong>171,600</strong> cases.</p>
+        Again, in 2017, <strong>NSW</strong>'s population aged <span style="color:#a97c50; font-weight:bold;">55–74</span> had the highest number of cases at <strong>178,890</strong> cases. Indeed, like 2011, <strong>VIC</strong> followed behind with <strong>
+          163,830
+        </strong> cases for the <span style="color:#a97c50; font-weight:bold;">55–74</span> age group. 
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      TopoJSON sourced from <a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth</a> and Data sourced from <a href="https://www.aihw.gov.au/reports/chronic-disease/geographical-variation-in-disease/data" target="_blank">AIHW</a>.<br>
+      Created by Harry Katelis (33114757)
+    </div>
+
+  </div>
+
+  <script>
+    const options = { actions: false };
+    
+    vegaEmbed('#firstBarChart', 'firstBarChart.vg.json', options);
+    vegaEmbed('#mapCombined', 'mapCombined.vg.json', options);
+    vegaEmbed('#slope', 'slope.vg.json', options);
+    vegaEmbed('#bubble', 'bubble.vg.json', options);
+    vegaEmbed('#barchart2011', 'barchart2011.vg.json', options);
+    vegaEmbed('#barchart2017', 'barchart2017.vg.json', options);
+    vegaEmbed('#radial2011', '2011RadialChart.vg.json', options);
+    vegaEmbed('#radial2017', '2017RadialChart.vg.json', options);
+    vegaEmbed('#stateBarCharts', 'stateBarCharts.vg.json', options);
+  </script>
+
+</body>
+</html>
